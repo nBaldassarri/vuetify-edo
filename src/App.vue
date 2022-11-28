@@ -1,25 +1,39 @@
 <template>
-  <v-btn>
-  oooooooooooo
-</v-btn>
+  <div>
+        <h1>TURN ON/OFF LED</h1>
+        <br><br>
+        <v-btn class="btn btn-danger" @click='on'>ON</v-btn>
+        <v-btn @click='off'>OFF</v-btn>
+  </div>
 </template>
 
 <script>
+import io from "socket.io-client"; 
 
 export default {
-  name: 'App',
-  components: {
-  }
-}
+  name: 'app',
+  data() {
+    return {
+      socket: {},
+    }
+  },
+  created() {
+    this.socket = io("http://localhost:5000");
+  },
+  methods: {
+    on: function() {
+      this.socket.emit("on", 13);
+    },
+    off: function() {
+      this.socket.emit("off", 13);
+    },
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 </style>
