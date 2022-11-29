@@ -2,8 +2,12 @@
   <div>
         <h1>TURN ON/OFF LED</h1>
         <br><br>
-        <v-btn class="btn btn-danger" @click='on'>ON</v-btn>
-        <v-btn @click='off'>OFF</v-btn>
+        <v-btn color="cyan accent-2" @click='on'>ON</v-btn>
+        <v-btn color="error" @click='off'>OFF</v-btn>
+        <br><br>
+        <v-color-picker></v-color-picker>
+        
+        
   </div>
 </template>
 

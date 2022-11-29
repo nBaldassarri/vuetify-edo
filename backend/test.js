@@ -3,24 +3,23 @@ const five = require('johnny-five');
 const http = require('http');
 const socketIo = require('socket.io');
 
-const port = process.env.PORT || 5000;
-const server = http.createServer().listen(port, () => { });
+const server = http.createServer().listen(5000, () => { });
+const policy = {
+  cors: {
+    origin: "*",
+  },
+};
+
+const io = socketIo(server, policy);
+
+// PIU ARDUINO PARTEEEE
+
 const board = new five.Board({port: 'COM3'});
 
 const pin = {
-  13: {
-    led: {
-      on: () => console.log('on'),
-      off: () => console.log('off'),
-    },
-  },
+  13: {led: {}},
 };    
 
-const io = socketIo(server, {
-    cors: {
-      origin: "*",
-    },
-});
 
 board.on('ready', () => {
   const led = new five.Led(13);
@@ -30,9 +29,10 @@ board.on('ready', () => {
 
 io.sockets.on('connection', (socket) => {
     socket.on("on", (data) => {
-        pin[data].led.on();
+        pin[data].led.blink(500);
     });
     socket.on("off", (data) => {
+        pin[data].led.stop();
         pin[data].led.off();
     });
 });
